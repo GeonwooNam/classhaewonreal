@@ -220,7 +220,55 @@ void mode1()
 }
 void mode2()
 {
-
+    char c;
+    divwords();
+    sorting();
+    printf("키워드 개수를 입력하세요.\n");
+    scanf("%d",&keynum);
+    FILE *fp;
+    fp=fopen("tags.txt","a");
+    for(int i=0; i<keynum; i++)
+    {
+        printf("%s ",op[i]->word);
+        fprintf(fp,"%s ",op[i]->word);
+    }
+    fputc('*',fp);
+    fclose(fp);
+    printf("\n키워드에 부적합한 단어가 있나요? 있다면 단어를, 없다면 zero을 눌러주세요.\n");
+    FILE *un;
+    char unap[16];
+    scanf(" %s",unap);
+    un=fopen("excepts.txt","a");
+    if(strcmp(unap,"zero")) fprintf(un," %s",unap);
+    fclose(un);
+    printf("메인으로 돌아갈까요? Y/N\n");
+    scanf(" %c",&c);
+    if(c=='Y')
+    {
+        scene1();
+    }
+    else
+    {
+        for(int l=0; l<1000; l++)
+        {
+            wordlist[l].word[0]='\0';
+            wordlist[l].repeat=0;
+            wordlist[l].links= {0,};
+            for(int k=0; k<999; k++)
+            {
+                wordlist[l].link[k]=0;
+            }
+            wordlist[l].first=0;
+            wordlist[l].last=0;
+            wordarray[l]=NULL;
+            wlpoint[l]=NULL;
+            o[l]=0;
+            op[l]=0;
+        }
+        wlindex=0;
+        wllength=0;
+        mode2();
+    }
 }
 
 void scene1()
